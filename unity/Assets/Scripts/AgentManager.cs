@@ -304,16 +304,20 @@ public class AgentManager : MonoBehaviour {
             // primary agent floating in space, then generates the house, then teleports the primary agent.
             // this will need a rework to make multi agent work as GetReachablePositions is used to position additional
             // agents, which won't work if we initialize the agent(s) before the scene exists
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("Procedural")) {
-                throw new NotImplementedException($"Procedural scenes only support a single agent currently.");
-            }
+//            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("Procedural")) {
+//                throw new NotImplementedException($"Procedural scenes only support a single agent currently.");
+//            }
 
             Physics.SyncTransforms();
-            Vector3[] reachablePositions = primaryAgent.getReachablePositions(2.0f);
-            for (int i = 1; i < action.agentCount && this.agents.Count < Math.Min(agentColors.Length, action.agentCount); i++) {
-                action.x = reachablePositions[i + 4].x;
-                action.y = reachablePositions[i + 4].y;
-                action.z = reachablePositions[i + 4].z;
+//            Vector3[] reachablePositions = primaryAgent.getReachablePositions(2.0f);
+//            for (int i = 1; i < action.agentCount && this.agents.Count < Math.Min(agentColors.Length, action.agentCount); i++) {
+            for (int i = 1; i < action.agentCount; i++) {
+//                action.x = reachablePositions[i + 4].x;
+//                action.y = reachablePositions[i + 4].y;
+//                action.z = reachablePositions[i + 4].z;
+                action.x = i * 32.0f;
+                action.y = i * 33.0f;
+                action.z = i * 34.0f;
                 addAgent(action);
                 Physics.SyncTransforms(); // must do this so that when we CapsuleCast we see the most recently added agent
             }
@@ -613,7 +617,7 @@ public class AgentManager : MonoBehaviour {
         agent.actionDuration = this.actionDuration;
         // clone.m_Camera.targetDisplay = this.agents.Count;
         componentClone.transform.position = clonePosition;
-        UpdateAgentColor(agent, agentColors[this.agents.Count]);
+        UpdateAgentColor(agent, agentColors[this.agents.Count % agentColors.Length]);
         
 #if PLATFORM_CLOUD_RENDERING
         agent.m_Camera.targetTexture = createRenderTexture(this.primaryAgent.m_Camera.targetTexture.width, this.primaryAgent.m_Camera.targetTexture.height);

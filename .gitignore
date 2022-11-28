@@ -128,3 +128,8 @@ unity/Assets/Editor/Instant Screenshot/Documentation - Instant screenshot.pdf.me
 *.log
 tmp/
 
+*.dll
+jordis_osx.app
+*.mat
+*.meta
+*.asset
